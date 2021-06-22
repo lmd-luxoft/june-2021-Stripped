@@ -1,7 +1,14 @@
 #!/usr/bin/env python2
+import argparse
 
 
 def commandline_parser():
+    parser = argparse.ArgumentParser(description='Process parameters for application')
+    parser.add_argument('-p', '--port', type=int, help='parameter for setting port to fileserver')
+    parser.add_argument('-d', '--directory', type=str, help='parameter for setting working directory')
+
+    args = parser.parse_args()
+    print(args.accumulate(args.integers))
     """Command line parser.
 
     Parse port and working directory parameters from command line.

@@ -1,15 +1,15 @@
+import os
 
-def change_dir(path, autocreate=True):
-    """Change current directory of app.
-
-    Args:
-        path (str): Path to working directory with files.
-        autocreate (bool): Create folder if it doesn't exist.
-
-    Raises:
-        RuntimeError: if directory does not exist and autocreate is False.
-    """
-
+def change_dir(path):
+    if os.path.isdir(path):
+        print("Current working directory: {0}".format(os.getcwd()))
+        os.chdir(path)
+        print("Current working directory after parse: {0}".format(os.getcwd()))
+    else:
+        print("Current working directory: {0}".format(os.getcwd()))
+        os.makedirs(path)
+        os.chdir(path)
+        print("Current working directory after parse: {0}".format(os.getcwd()))
     pass
 
 
