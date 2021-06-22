@@ -1,5 +1,6 @@
 import os
 
+
 def change_dir(path):
     if os.path.isdir(path):
         print("Current working directory: {0}".format(os.getcwd()))
@@ -14,71 +15,37 @@ def change_dir(path):
 
 
 def get_files():
-    """Get info about all files in working directory.
+    getfileslist = os.listdir(os.getcwd())
+    getfileslistinfo=[{}]
+    for file in getfileslist:
+        getfileslistinfo.append(get_file_data(file))
 
-    Returns:
-        List of dicts, which contains info about each file. Keys:
-        - name (str): filename
-        - create_date (datetime): date of file creation.
-        - edit_date (datetime): date of last file modification.
-        - size (int): size of file in bytes.
-    """
+    print(getfileslistinfo)
+    return getfileslistinfo
 
-    pass
 
+def read_file_content(filename):
+    with open(filename, "r") as f:
+        filecontent = f.read()
+    return filecontent
 
 def get_file_data(filename):
-    """Get full info about file.
-
-    Args:
-        filename (str): Filename.
-
-    Returns:
-        Dict, which contains full info about file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - edit_date (datetime): date of last file modification
-        - size (int): size of file in bytes
-
-    Raises:
-        RuntimeError: if file does not exist.
-        ValueError: if filename is invalid.
-    """
-
-    pass
-
+    fileinfo = {
+        'name' : os.path.basename(filename),
+        'content': read_file_content(filename),
+        'create_date': os.path.getctime(filename),
+        'edit_date': os.path.getmtime(filename),
+        'size': os.path.getsize(filename)
+               }
+    return fileinfo
 
 def create_file(filename, content=None):
-    """Create a new file.
-
-    Args:
-        filename (str): Filename.
-        content (str): String with file content.
-
-    Returns:
-        Dict, which contains name of created file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - size (int): size of file in bytes
-
-    Raises:
-        ValueError: if filename is invalid.
-    """
-
+    f=open(filename,"w")
+    f.write(content+f.name)
+    f.close()
     pass
 
 
 def delete_file(filename):
-    """Delete file.
-
-    Args:
-        filename (str): filename
-
-    Raises:
-        RuntimeError: if file does not exist.
-        ValueError: if filename is invalid.
-    """
-
+    os.remove(filename)
     pass
