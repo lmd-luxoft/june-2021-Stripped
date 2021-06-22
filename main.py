@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 import argparse
-import server.FileService as fileService
+import server.file_service as file_service
+import utilities.config_manager as config_manager
 
 
 def commandline_parser():
@@ -14,35 +15,37 @@ def commandline_parser():
 
 def command_change_dir():
     change_dir = raw_input("Please enter path to dir: ")
-    fileService.change_dir(change_dir)
+    file_service.change_dir(change_dir)
     pass
 
 
 def command_get_files():
-    return fileService.get_files()
+    return file_service.get_files()
 
 
 def command_get_file_data():
     filename = raw_input("Enter path with file name: ")
-    return fileService.get_file_data(filename)
+    return file_service.get_file_data(filename)
 
 
 def command_create_file():
     filename = raw_input("Enter path with file name: ")
     content = raw_input("Enter file content")
-    return fileService.create_file(filename, content)
+    return file_service.create_file(filename, content)
 
 
 def command_delete_file():
     filename = raw_input("Enter path with file name: ")
-    return fileService.delete_file(filename)
+    return file_service.delete_file(filename)
 
 
 def main():
     args = commandline_parser()
+    file_service.change_dir(config_manager.config_load()['workdir'])
+
 
     try:
-        fileService.change_dir(args.directory)
+        file_service.change_dir(args.directory)
     except:
         print("Console param is None")
 
@@ -54,8 +57,9 @@ def main():
                   '3-Get file data' + '\n'
                   '4-Create file' + '\n'
                   '5-Delete file' + '\n'
-                  '6-Exit app' + '\n')
-        cmd = raw_input('Enter a command')
+                  '6-Print Current workdir' + '\n'
+                  '7-Exit app' + '\n')
+        cmd = raw_input('Enter a command'+'\n')
         if cmd == '1':
             command_change_dir()
         elif cmd == '2':
@@ -67,18 +71,11 @@ def main():
         elif cmd == '5':
             command_delete_file()
         elif cmd == '6':
+            file_service.print_current_work_dir()
+        elif cmd == '7':
             break
         else:
             print "Invalid command."
-    """Entry point of app.
-
-    Get and parse command line parameters and configure web app.
-
-    Command line options:
-    -f --folder - working directory (absolute or relative path, default: current app folder).
-    -h --help - help.
-    """
-
     pass
 
 
