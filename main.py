@@ -3,7 +3,6 @@ import argparse
 import server.FileService as fileService
 
 
-
 def commandline_parser():
     parser = argparse.ArgumentParser(description='Process parameters for application')
     parser.add_argument('-p', '--port', type=int, help='parameter for setting port to fileserver')
@@ -40,24 +39,29 @@ def command_delete_file():
 
 
 def main():
-    args=commandline_parser();
-    while True:
-        print('Available operations:'+'\n'
-              '1-Change work dir'+'\n'
-              '2-Get files in work dir' + '\n'
-              '3-Get file data' + '\n'
-              '4-Create file' + '\n'
-              '5-Delete file' + '\n'
-              '6-Exit app' + '\n'
+    args = commandline_parser()
 
-              )
+    try:
+        fileService.change_dir(args.directory)
+    except:
+        print("Console param is None")
+
+    while True:
+        print('\n'
+                  'Available operations:' + '\n'
+                  '1-Change work dir' + '\n'
+                  '2-Get files in work dir' + '\n'
+                  '3-Get file data' + '\n'
+                  '4-Create file' + '\n'
+                  '5-Delete file' + '\n'
+                  '6-Exit app' + '\n')
         cmd = raw_input('Enter a command')
         if cmd == '1':
             command_change_dir()
         elif cmd == '2':
             command_get_files()
         elif cmd == '3':
-            command_get_file_data()
+            print(command_get_file_data())
         elif cmd == '4':
             command_create_file()
         elif cmd == '5':

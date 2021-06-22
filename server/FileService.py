@@ -16,7 +16,7 @@ def change_dir(path):
 
 def get_files():
     getfileslist = os.listdir(os.getcwd())
-    getfileslistinfo=[{}]
+    getfileslistinfo = [{}]
     for file in getfileslist:
         getfileslistinfo.append(get_file_data(file))
 
@@ -29,19 +29,21 @@ def read_file_content(filename):
         filecontent = f.read()
     return filecontent
 
+
 def get_file_data(filename):
     fileinfo = {
-        'name' : os.path.basename(filename),
+        'name': os.path.basename(filename),
         'content': read_file_content(filename),
         'create_date': os.path.getctime(filename),
         'edit_date': os.path.getmtime(filename),
         'size': os.path.getsize(filename)
-               }
+    }
     return fileinfo
 
+
 def create_file(filename, content=None):
-    f=open(filename,"w")
-    f.write(content+f.name)
+    f = open(filename, "w")
+    f.write(content + f.name)
     f.close()
     pass
 
