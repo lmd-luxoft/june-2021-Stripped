@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 import argparse
+import server.FileService as fileService
 
 
 def commandline_parser():
@@ -8,85 +9,31 @@ def commandline_parser():
     parser.add_argument('-d', '--directory', type=str, help='parameter for setting working directory')
 
     args = parser.parse_args()
-    print(args.accumulate(args.integers))
-    """Command line parser.
-
-    Parse port and working directory parameters from command line.
-
-    Returns:
-        argparse.ArgumentParser
-    """
-
-    pass
+    return args
 
 
 def command_change_dir():
-    """Change current directory of app.
-
-    Raises:
-        RuntimeError: if directory does not exist and autocreate is False.
-    """
-
+    fileService.change_dir()
     pass
 
 
 def command_get_files():
-    """Get info about all files in working directory.
-
-    Returns:
-        List of dicts, which contains info about each file. Keys:
-        - name (str): filename
-        - create_date (datetime): date of file creation.
-        - edit_date (datetime): date of last file modification.
-        - size (int): size of file in bytes.
-    """
-
+    fileService.get_files()
     pass
 
 
 def command_get_file_data():
-    """Get full info about file.
-
-    Returns:
-        Dict, which contains full info about file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - edit_date (datetime): date of last file modification
-        - size (int): size of file in bytes
-
-    Raises:
-        RuntimeError: if file does not exist.
-        ValueError: if filename is invalid.
-    """
-
+    fileService.get_file_data()
     pass
 
 
 def command_create_file():
-    """Create a new file.
-
-    Returns:
-        Dict, which contains name of created file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - size (int): size of file in bytes
-
-    Raises:
-        ValueError: if filename is invalid.
-    """
-
+    fileService.create_file()
     pass
 
 
 def command_delete_file():
-    """Delete file.
-
-    Raises:
-        RuntimeError: if file does not exist.
-    """
-
+    fileService.delete_file()
     pass
 
 
