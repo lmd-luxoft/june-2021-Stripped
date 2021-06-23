@@ -1,99 +1,81 @@
 #!/usr/bin/env python2
+import argparse
+import server.file_service as file_service
+import utilities.config_manager as config_manager
 
 
 def commandline_parser():
-    """Command line parser.
+    parser = argparse.ArgumentParser(description='Process parameters for application')
+    parser.add_argument('-p', '--port', type=int, help='parameter for setting port to fileserver')
+    parser.add_argument('-d', '--directory', type=str, help='parameter for setting working directory')
 
-    Parse port and working directory parameters from command line.
-
-    Returns:
-        argparse.ArgumentParser
-    """
-
-    pass
+    args = parser.parse_args()
+    return args
 
 
 def command_change_dir():
-    """Change current directory of app.
-
-    Raises:
-        RuntimeError: if directory does not exist and autocreate is False.
-    """
-
-    pass
+    change_dir = raw_input("Please enter path to dir: ")
+    file_service.change_dir(change_dir)
 
 
 def command_get_files():
-    """Get info about all files in working directory.
-
-    Returns:
-        List of dicts, which contains info about each file. Keys:
-        - name (str): filename
-        - create_date (datetime): date of file creation.
-        - edit_date (datetime): date of last file modification.
-        - size (int): size of file in bytes.
-    """
-
-    pass
+    return file_service.get_files()
 
 
 def command_get_file_data():
-    """Get full info about file.
-
-    Returns:
-        Dict, which contains full info about file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - edit_date (datetime): date of last file modification
-        - size (int): size of file in bytes
-
-    Raises:
-        RuntimeError: if file does not exist.
-        ValueError: if filename is invalid.
-    """
-
-    pass
+    filename = raw_input("Enter path with file name: ")
+    return file_service.get_file_data(filename)
 
 
 def command_create_file():
-    """Create a new file.
-
-    Returns:
-        Dict, which contains name of created file. Keys:
-        - name (str): filename
-        - content (str): file content
-        - create_date (datetime): date of file creation
-        - size (int): size of file in bytes
-
-    Raises:
-        ValueError: if filename is invalid.
-    """
-
-    pass
+    filename = raw_input("Enter path with file name: ")
+    content = raw_input("Enter file content")
+    return file_service.create_file(filename, content)
 
 
 def command_delete_file():
-    """Delete file.
-
-    Raises:
-        RuntimeError: if file does not exist.
-    """
-
-    pass
+    filename = raw_input("Enter path with file name: ")
+    return file_service.delete_file(filename)
 
 
 def main():
-    """Entry point of app.
+    args = commandline_parser()
+    file_service.change_dir(config_manager.config_load()['workdir'])
 
-    Get and parse command line parameters and configure web app.
 
-    Command line options:
-    -f --folder - working directory (absolute or relative path, default: current app folder).
-    -h --help - help.
-    """
+    try:
+        file_service.change_dir(args.directory)
+    except:
+        print("Console param is None")
 
-    pass
+    while True:
+        print("""
+        Available operations:
+        1-Change work dir
+        2-Get files in work dir
+        3-Get file data
+        4-Create file
+        5-Delete file
+        6-Print Current workdir
+        7-Exit app
+        """)
+        cmd = raw_input('Enter a command'+'\n')
+        if cmd == '1':
+            command_change_dir()
+        elif cmd == '2':
+            command_get_files()
+        elif cmd == '3':
+            print(command_get_file_data())
+        elif cmd == '4':
+            command_create_file()
+        elif cmd == '5':
+            command_delete_file()
+        elif cmd == '6':
+            file_service.print_current_work_dir()
+        elif cmd == '7':
+            break
+        else:
+            print "Invalid command."
 
 
 if __name__ == '__main__':
