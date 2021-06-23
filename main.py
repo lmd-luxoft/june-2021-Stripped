@@ -16,7 +16,6 @@ def commandline_parser():
 def command_change_dir():
     change_dir = raw_input("Please enter path to dir: ")
     file_service.change_dir(change_dir)
-    pass
 
 
 def command_get_files():
