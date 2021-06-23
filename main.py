@@ -49,15 +49,16 @@ def main():
         print("Console param is None")
 
     while True:
-        print('\n'
-                  'Available operations:' + '\n'
-                  '1-Change work dir' + '\n'
-                  '2-Get files in work dir' + '\n'
-                  '3-Get file data' + '\n'
-                  '4-Create file' + '\n'
-                  '5-Delete file' + '\n'
-                  '6-Print Current workdir' + '\n'
-                  '7-Exit app' + '\n')
+        print("""
+        Available operations:
+        1-Change work dir
+        2-Get files in work dir
+        3-Get file data
+        4-Create file
+        5-Delete file
+        6-Print Current workdir
+        7-Exit app
+        """)
         cmd = raw_input('Enter a command'+'\n')
         if cmd == '1':
             command_change_dir()
@@ -75,7 +76,6 @@ def main():
             break
         else:
             print "Invalid command."
-    pass
 
 
 if __name__ == '__main__':

@@ -12,7 +12,7 @@ def change_dir(path):
         try:
             os.makedirs(path)
             os.chdir(path)
-        except Exception as ex:
+        except OSError as ex:
             print(ex)
 
 
@@ -30,29 +30,31 @@ def read_file_content(filename):
     try:
         with open(filename, "r") as f:
             file_content = f.read()
-    except Exception as ex:
+    except OSError as ex:
         print(ex)
     return file_content
 
 
 def get_file_data(filename):
-    try:
+    if os.path.isfile(filename):
         file_info = {
             'name': os.path.basename(filename),
             'content': read_file_content(filename),
             'create_date': os.path.getctime(filename),
             'edit_date': os.path.getmtime(filename),
-            'size': os.path.getsize(filename)
-        }
-    except Exception as ex:
-        print(ex)
+            'size': os.path.getsize(filename)}
+    else:
+        print("File doesn't exist")
     return file_info
 
 
 def create_file(filename, content=None):
     try:
         f = open(filename, "w")
-        f.write(content + f.name)
+        if content is not None:
+            f.write(content + f.name)
+        else:
+            f.write(content)
         f.close()
     except Exception as ex:
         print(ex)
