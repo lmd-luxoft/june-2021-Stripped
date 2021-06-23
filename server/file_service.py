@@ -1,19 +1,27 @@
 import os
+import sys
+import re
 
 
 def print_current_work_dir():
     print("Current working directory: {0}".format(os.getcwd()))
 
 
-def change_dir(path):
-    if os.path.isdir(path):
-        os.chdir(path)
-    else:
-        try:
+def validate_path(path):
+    return bool(re.match(r"^[A-Z]:(\\[^\\]+)+\\?$    |    ^/?([^/]+/)+", path))
+
+
+def change_dir(path, auto_create=False):
+    if validate_path(path):
+        if os.path.isdir(path) and auto_create==False:
+            os.chdir(path)
+        elif not os.path.isdir(path) and auto_create:
             os.makedirs(path)
             os.chdir(path)
-        except OSError as ex:
-            print(ex)
+        else:
+            print('cant create dir or something wrong')
+    else:
+        raise ValueError
 
 
 def get_files():
@@ -65,5 +73,3 @@ def delete_file(filename):
         os.remove(filename)
     except Exception as ex:
         print(ex)
-
-

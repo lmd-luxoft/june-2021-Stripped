@@ -1,73 +1,71 @@
 # coding=utf-8
 import os
-import shutil
+import random
+import string
+import platform
 
 import pytest
 
-from server import FileService
+from server import file_service
 
 
 class Test_change_dir:
 
     def test_incorrect_type1(self):
-        """Передать None в качестве значения
-
-        Ожидаемый результат: возбуждение исключения TypeError
-        """
-        assert False
+        with pytest.raises(TypeError):
+            file_service.change_dir(None)
 
     def test_incorrect_type2(self):
-        """Передать значение типа int
-
-        Ожидаемый результат: возбуждение исключения TypeError
-        """
-        assert False
+        with pytest.raises(TypeError):
+            file_service.change_dir(int)
 
     def test_dot_dir(self):
-        """Передать . в качестве значения,
-
-        Ожидаемый результат: текущая папка не должна измениться
-        """
-        assert False
+        with pytest.raises(ValueError):
+            file_service.change_dir(".")
 
     def test_incorrect_value2(self):
-        """Передать .. в качестве значения
-
-        Ожидаемый результат: возбуждение исключения ValueError
-        """
-        assert False
+        with pytest.raises(ValueError):
+            file_service.change_dir("..")
 
     def test_incorrect_value3(self):
-        """Передать ../something в качестве значения
-
-        Ожидаемый результат: возбуждение исключения ValueError
-        """
-        assert False
+        with pytest.raises(ValueError):
+            file_service.change_dir('../something')
 
     def test_existing_dir_no_create(self):
-        """Перейти в каталог, который уже существует и autocreate=False
-
-        Ожидаемый результат: текущая папка имеет имя ExistingDirectory
-        """
-        assert False
+        default_dir = os.getcwd()
+        file_service.change_dir(os.getcwd(), auto_create=False)
+        print(os.getcwd())
+        assert os.getcwd() == default_dir
 
     def test_existing_dir_create(self):
-        """Перейти в каталог, который уже существует и autocreate=True
-
-        Ожидаемый результат: текущая папка имеет имя ExistingDirectory
-        """
-        assert False
+        default_dir = os.getcwd()
+        file_service.change_dir(os.getcwd(), auto_create=True)
+        print(os.getcwd())
+        assert os.getcwd() == default_dir
 
     def test_non_existing_dir_no_create(self):
-        """Перейти в каталог, который не существует и autocreate=False
-
-        Ожидаемый результат: текущая папка имеет имя отличное от NotExistingDirectory
-        """
-        assert False
+        n = random.randint(0, 5000)
+        work_path = os.getcwd()
+        print(platform.system())
+        if platform.system() == "Linux":
+            path = string.join(work_path, '/', str(n))
+            file_service.change_dir(path, True)
+        elif platform.system() == "Windows":
+            path = string.join(work_path, '\\', str(n))
+            file_service.change_dir(path, False)
+        else:
+            print ("Unknown Operation System")
+        assert os.getcwd() == work_path
 
     def test_non_existing_dir_create(self):
-        """Перейти в каталог, который не существует и autocreate=True
-
-        Ожидаемый результат: текущая папка имеет имя отличное от NotExistingDirectory
-        """
-        assert False
+        n = random.randint(0, 5000)
+        work_path = os.getcwd()
+        if platform.system() == "Linux":
+            path = string.join(work_path, '/' + str(n))
+            file_service.change_dir(path, True)
+        elif platform.system() == "Windows":
+            path = string.join(work_path, '\\'+str(n))
+            file_service.change_dir(path, True)
+        else:
+            print ("Unknown Operation System")
+        assert os.getcwd() == path
