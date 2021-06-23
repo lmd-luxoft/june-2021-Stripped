@@ -1,7 +1,6 @@
 # coding=utf-8
 import os
 import random
-import string
 import platform
 
 import pytest
@@ -38,7 +37,6 @@ class Test_change_dir:
         print(os.getcwd())
         assert os.getcwd() == default_dir
 
-
     def test_existing_dir_create(self):
         default_dir = os.getcwd()
         print(os.getcwd())
@@ -48,18 +46,18 @@ class Test_change_dir:
         assert os.getcwd() == default_dir
 
     def test_non_existing_dir_no_create(self):
-        n = random.randint(0, 5000)
-        work_path = os.getcwd()
-        print(platform.system())
-        if platform.system() == "Linux":
-            path = work_path + '/' + str(n)
-            file_service.change_dir(path, False)
-        elif platform.system() == "Windows":
-            path = work_path + '\\'+str(n)
-            file_service.change_dir(path, False)
-        else:
-            print ("Unknown Operation System")
-        assert os.getcwd() == work_path
+        with pytest.raises(ValueError):
+            n = random.randint(0, 5000)
+            work_path = os.getcwd()
+            print(platform.system())
+            if platform.system() == "Linux":
+                path = work_path + '/' + str(n)
+                file_service.change_dir(path, False)
+            elif platform.system() == "Windows":
+                path = work_path + '\\'+str(n)
+                file_service.change_dir(path, False)
+            else:
+                print ("Unknown Operation System")
 
     def test_non_existing_dir_create(self):
         n = random.randint(0, 5000)
