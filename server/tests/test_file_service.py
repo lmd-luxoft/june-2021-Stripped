@@ -33,14 +33,18 @@ class Test_change_dir:
 
     def test_existing_dir_no_create(self):
         default_dir = os.getcwd()
+        print(os.getcwd())
         file_service.change_dir(os.getcwd(), auto_create=False)
         print(os.getcwd())
         assert os.getcwd() == default_dir
 
+
     def test_existing_dir_create(self):
         default_dir = os.getcwd()
+        print(os.getcwd())
         file_service.change_dir(os.getcwd(), auto_create=True)
         print(os.getcwd())
+        print(default_dir)
         assert os.getcwd() == default_dir
 
     def test_non_existing_dir_no_create(self):
@@ -48,10 +52,10 @@ class Test_change_dir:
         work_path = os.getcwd()
         print(platform.system())
         if platform.system() == "Linux":
-            path = string.join(work_path, '/', str(n))
-            file_service.change_dir(path, True)
+            path = work_path + '/' + str(n)
+            file_service.change_dir(path, False)
         elif platform.system() == "Windows":
-            path = string.join(work_path, '\\', str(n))
+            path = work_path + '\\'+str(n)
             file_service.change_dir(path, False)
         else:
             print ("Unknown Operation System")
@@ -61,10 +65,10 @@ class Test_change_dir:
         n = random.randint(0, 5000)
         work_path = os.getcwd()
         if platform.system() == "Linux":
-            path = string.join(work_path, '/' + str(n))
+            path = work_path + '/' + str(n)
             file_service.change_dir(path, True)
         elif platform.system() == "Windows":
-            path = string.join(work_path, '\\'+str(n))
+            path = work_path + '\\'+str(n)
             file_service.change_dir(path, True)
         else:
             print ("Unknown Operation System")

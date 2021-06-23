@@ -8,18 +8,24 @@ def print_current_work_dir():
 
 
 def validate_path(path):
-    return bool(re.match(r"^[A-Z]:(\\[^\\]+)+\\?$    |    ^/?([^/]+/)+", path))
+    return bool(re.match(r"[a-zA-Z]:\\((?:.*?\\)*).*|^/?([^/]+/)+", path))
 
 
 def change_dir(path, auto_create=False):
     if validate_path(path):
-        if os.path.isdir(path) and auto_create==False:
+        if os.path.isdir(path) and not auto_create:
             os.chdir(path)
         elif not os.path.isdir(path) and auto_create:
             os.makedirs(path)
             os.chdir(path)
+        elif not auto_create and not os.path.isdir(path):
+            print("add flag auto_create or create dir")
+            raise ValueError
+        elif os.getcwd() == path:
+            print('already in this directory')
         else:
             print('cant create dir or something wrong')
+            raise ValueError
     else:
         raise ValueError
 
