@@ -11,16 +11,16 @@ def print_current_work_dir():
 def validate_path(path):
     if platform.system() == "Windows":
         validator = bool(re.match(r"[a-zA-Z]:\\((?:.*?\\)*).*", path))
-    if platform.system() == "Linux":
-        validator = bool(re.match(r"^[a-zA-Z0-9]?(/[^/ ]*)+/?$", path))
+    elif platform.system() == "Linux":
+        validator = bool(re.match(r"[a-zA-Z0-9]?(/[^/ ]*)+/?$", path))
+    else:
+        raise RuntimeError('Trouble with Operation System')
     return validator
 
 
 def change_dir(path, auto_create=False):
-    if validate_path(path):
-        pass
-    else:
-        raise ValueError("Cant validate linux or windows path")
+    if not validate_path(path):
+        raise ValueError("Cant validate linux or Windows path")
     if os.path.isdir(path) and not auto_create:
         os.chdir(path)
     elif not os.path.isdir(path) and auto_create:

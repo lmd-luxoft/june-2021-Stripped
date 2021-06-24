@@ -2,7 +2,7 @@
 import os
 import random
 import platform
-import string
+
 
 import pytest
 
@@ -52,10 +52,10 @@ class Test_change_dir:
             work_path = os.getcwd()
             print(platform.system())
             if platform.system() == "Linux":
-                path = os.path.join(work_path, '/', str(n))
+                path = os.path.join(work_path, str(n))
                 file_service.change_dir(path, False)
             elif platform.system() == "Windows":
-                path = os.path.join(work_path, "\'\'", str(n))
+                path = os.path.join(work_path, str(n))
                 file_service.change_dir(path, False)
             else:
                 raise OSError("Unknown Operation System")
@@ -64,11 +64,13 @@ class Test_change_dir:
         n = random.randint(0, 5000)
         work_path = os.getcwd()
         if platform.system() == "Linux":
-            path = os.path.join(work_path, '/', str(n))
+            path = os.path.join(work_path, str(n))
             file_service.change_dir(path, True)
         elif platform.system() == "Windows":
-            path = os.path.join(work_path, "\'\'", str(n))
+            path = os.path.join(work_path, str(n))
             file_service.change_dir(path, True)
         else:
             raise OSError("Unknown Operation System")
         assert os.getcwd() == path
+
+
