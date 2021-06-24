@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import platform
 
 
 def print_current_work_dir():
@@ -8,26 +9,29 @@ def print_current_work_dir():
 
 
 def validate_path(path):
-    return bool(re.match(r"[a-zA-Z]:\\((?:.*?\\)*).*|^/?([^/]+/)+", path))
+    if platform.system() == "Windows":
+        validator = bool(re.match(r"[a-zA-Z]:\\((?:.*?\\)*).*", path))
+    if platform.system() == "Linux":
+        validator = bool(re.match(r"^[a-zA-Z0-9]?(/[^/ ]*)+/?$", path))
+    return validator
 
 
 def change_dir(path, auto_create=False):
     if validate_path(path):
-        if os.path.isdir(path) and not auto_create:
-            os.chdir(path)
-        elif not os.path.isdir(path) and auto_create:
-            os.makedirs(path)
-            os.chdir(path)
-        elif not auto_create and not os.path.isdir(path):
-            print("add flag auto_create or create dir")
-            raise ValueError
-        elif os.getcwd() == path:
-            print('already in this directory')
-        else:
-            print('cant create dir or something wrong')
-            raise ValueError
+        pass
     else:
-        raise ValueError
+        raise ValueError("Cant validate linux or windows path")
+    if os.path.isdir(path) and not auto_create:
+        os.chdir(path)
+    elif not os.path.isdir(path) and auto_create:
+        os.makedirs(path)
+        os.chdir(path)
+    elif not auto_create and not os.path.isdir(path):
+        raise ValueError("add flag auto_create or create dir")
+    elif os.getcwd() == path:
+        print('already in this directory')
+    else:
+        raise ValueError('cant create dir or something wrong')
 
 
 def get_files():
