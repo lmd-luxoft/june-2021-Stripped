@@ -1,4 +1,10 @@
 {
   "port" : 8080,
-  "workdir" : "C:\\FileServer"
+  "workdir" : "C:\\FileServer",
+  "loggers":
+  {
+    "main": 10,
+    "tests": 10,
+    "file_server": 10
+  }
 }

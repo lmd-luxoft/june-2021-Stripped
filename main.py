@@ -2,12 +2,14 @@
 import argparse
 import server.file_service as file_service
 import utilities.config_manager as config_manager
+import logging
 
 
 def commandline_parser():
     parser = argparse.ArgumentParser(description='Process parameters for application')
     parser.add_argument('-p', '--port', type=int, help='parameter for setting port to fileserver')
     parser.add_argument('-d', '--directory', type=str, help='parameter for setting working directory')
+    parser.add_argument('-ll', '--log_level', type=int, help='parameter for log level info debug warn error')
 
     args = parser.parse_args()
     return args
@@ -38,15 +40,31 @@ def command_delete_file():
     return file_service.delete_file(filename)
 
 
+# set log level by using int numbers from 10 to 50. 10-debug 50-critical
+def setup_logger(log_level):
+    format_type ='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s'
+    logging.basicConfig(format=format_type, filename='file_server.log', encoding='utf-8')
+    logger = logging.getLogger('main')
+    logger.setLevel(log_level)
+    return logger
+
+
 def main():
+    logger = setup_logger(config_manager.config_load()['loggers']['main'])
+    logger.info("File Server stared")
+
     args = commandline_parser()
     file_service.change_dir(config_manager.config_load()['workdir'])
-
 
     try:
         file_service.change_dir(args.directory)
     except:
-        print("Console param is None")
+        logger.warning("Console Param is none using from config")
+
+    try:
+        setup_logger(args.log_level)
+    except:
+        logger.warning("Console Param is none using from config")
 
     while True:
         print("""
@@ -59,7 +77,7 @@ def main():
         6-Print Current workdir
         7-Exit app
         """)
-        cmd = raw_input('Enter a command'+'\n')
+        cmd = raw_input('Enter a command' + '\n')
         if cmd == '1':
             command_change_dir()
         elif cmd == '2':
