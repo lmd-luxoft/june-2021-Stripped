@@ -1,12 +1,5 @@
 # File server project
 
-Author is Maxim Suslov.
+Rudnev PR
 
-## Сделанные требования
-
-TODO: заполните требования
-
-## Желаемые требования
-
-TODO: заполните требования
 
