@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+from __future__ import print_function
 import argparse
 import server.file_service as file_service
 import utilities.config_manager as config_manager
@@ -93,7 +94,7 @@ def main():
         elif cmd == '7':
             break
         else:
-            print "Invalid command."
+            print("Invalid command.")
 
 
 if __name__ == '__main__':
