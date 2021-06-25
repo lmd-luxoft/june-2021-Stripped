@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 from __future__ import print_function
+from builtins import input
 import argparse
 import server.file_service as file_service
 import utilities.config_manager as config_manager
@@ -17,7 +18,7 @@ def commandline_parser():
 
 
 def command_change_dir():
-    change_dir = raw_input("Please enter path to dir: ")
+    change_dir = input("Please enter path to dir: ")
     file_service.change_dir(change_dir)
 
 
@@ -26,18 +27,18 @@ def command_get_files():
 
 
 def command_get_file_data():
-    filename = raw_input("Enter path with file name: ")
+    filename = input("Enter path with file name: ")
     return file_service.get_file_data(filename)
 
 
 def command_create_file():
-    filename = raw_input("Enter path with file name: ")
-    content = raw_input("Enter file content")
+    filename = input("Enter path with file name: ")
+    content = input("Enter file content")
     return file_service.create_file(filename, content)
 
 
 def command_delete_file():
-    filename = raw_input("Enter path with file name: ")
+    filename = input("Enter path with file name: ")
     return file_service.delete_file(filename)
 
 
@@ -78,7 +79,7 @@ def main():
         6-Print Current workdir
         7-Exit app
         """)
-        cmd = raw_input('Enter a command' + '\n')
+        cmd = input('Enter a command' + '\n')
         if cmd == '1':
             command_change_dir()
         elif cmd == '2':

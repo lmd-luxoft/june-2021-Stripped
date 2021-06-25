@@ -1,5 +1,7 @@
 # coding=utf-8
 from __future__ import print_function
+from builtins import str
+from builtins import object
 import os
 import random
 import platform
@@ -11,7 +13,7 @@ from server import file_service
 from utilities import config_manager
 
 
-class Test_change_dir:
+class Test_change_dir(object):
 
     logging.basicConfig(filename='tests.log', encoding='utf-8')
     logger = logging.getLogger('tests')
