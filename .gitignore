@@ -3,6 +3,8 @@
 __pycache__/
 *.pyc
 
+*.log
+
 # virtual environment
 .venv*/
 venv*/
